@@ -9,6 +9,9 @@ from .image import url2mime
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name
+from pygments.filters import TokenMergeFilter
+
+from .nullFormat import NullFormatter
 
 __version__ = '0.8.1'
 
@@ -148,14 +151,22 @@ class Embed(BaseContainer):
 
 class CodeBlock(BaseNode):
     type = "code_block"
+    language_map = {
+        'xml': 'html'
+    }
 
     def inner_render(self, node):
         attrs = node.get("attrs", {})
         language = attrs.get("language", "")
+        language = self.language_map.get(language, language)
         content = node.get("content", {})[0]
         text = content.get("text", "")
+        print(language)
         if language:
             lexer = get_lexer_by_name(language, stripall=True)
+            print(lexer)
+            lexer.add_filter(TokenMergeFilter())
+            formatter = NullFormatter(language=language)
             formatter = HtmlFormatter()
             html = highlight(text, lexer, formatter)
         return f'{html}'

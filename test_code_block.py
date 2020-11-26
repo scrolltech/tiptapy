@@ -9,12 +9,12 @@ s = r"""
     {
       "type": "code_block",
       "attrs": {
-          "language": "python"
+          "language": "bash"
       },
       "content": [
           {
               "type": "text",
-              "text": "# Python Program to find the L.C.M. of two input number\n\ndef compute_lcm(x, y):\n\n   # choose the greater number\n   if x > y:\n       greater = x\n   else:\n       greater = y\n\n   while(True):\n       if((greater % x == 0) and (greater % y == 0)):\n           lcm = greater\n           break\n       greater += 1\n\n   return lcm\n\nnum1 = 54\nnum2 = 24\n\nprint(\"The L.C.M. is\", compute_lcm(num1, num2))"
+              "text": "\n\r#!/bin/bash\n# Counting the number of lines in a list of files\n# for loop over arguments\n\nif [ $# -lt 1 ]\nthen\n  echo \"Usage: $0 file ...\"\n  exit 1\nfi\n\necho \"$0 counts the lines of code\" \nl=0\nn=0\ns=0\nfor f in $*\ndo\n\tl=`wc -l $f | sed 's/^\\([0-9]*\\).*$/\\1/'`\n\techo \"$f: $l\"\n        n=$[ $n + 1 ]\n        s=$[ $s + $l ]\ndone\n\necho \"$n files in total, with $s lines in total\" "
           }
       ]
     },
